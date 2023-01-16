@@ -15,18 +15,39 @@ function createOscillator(frequency: number) {
 }
 
 const FREQUENCIES = {
-  C4: 261.63,
-  D4: 293.66,
-  E4: 329.63,
-  F4: 349.23,
-  G4: 392.0,
-  A4: 440.0,
-  B4: 493.88,
+  C4: {
+    frequency: 261.63,
+    keyboardKey: "a",
+  },
+  D4: {
+    frequency: 293.66,
+    keyboardKey: "s",
+  },
+  E4: {
+    frequency: 329.63,
+    keyboardKey: "d",
+  },
+  F4: {
+    frequency: 349.23,
+    keyboardKey: "f",
+  },
+  G4: {
+    frequency: 392.0,
+    keyboardKey: "g",
+  },
+  A4: {
+    frequency: 440.0,
+    keyboardKey: "h",
+  },
+  B4: {
+    frequency: 493.88,
+    keyboardKey: "j",
+  },
 };
 
-const DETUNE = 10;
+const DETUNE = 0;
 
-function Key(props: { label: string; frequency: number }) {
+function Key(props: { label: string; frequency: number; keyboardKey: string }) {
   const [oscsPlaying, setOscsPlaying] = createStore<OscillatorNode[]>([]);
 
   function play() {
@@ -35,8 +56,8 @@ function Key(props: { label: string; frequency: number }) {
     setOscsPlaying((oscs) => [
       ...oscs,
       createOscillator(props.frequency),
-      createOscillator(props.frequency + DETUNE),
-      createOscillator(props.frequency - DETUNE),
+      // createOscillator(props.frequency + DETUNE),
+      // createOscillator(props.frequency - DETUNE),
     ]);
   }
   function pause() {
@@ -45,6 +66,13 @@ function Key(props: { label: string; frequency: number }) {
       return [];
     });
   }
+
+  function isKeyDown(key: KeyboardEvent) {
+    return key.key === props.keyboardKey;
+  }
+
+  document.addEventListener("keydown", (key) => isKeyDown(key) && play());
+  document.addEventListener("keyup", (key) => isKeyDown(key) && pause());
 
   return (
     <button onMouseDown={play} onMouseUp={pause} onMouseOut={pause}>
@@ -56,7 +84,9 @@ function Key(props: { label: string; frequency: number }) {
 function Index() {
   return (
     <For each={Object.entries(FREQUENCIES)}>
-      {([label, frequency]) => <Key label={label} frequency={frequency} />}
+      {([label, { frequency, keyboardKey }]) => (
+        <Key label={label} frequency={frequency} keyboardKey={keyboardKey} />
+      )}
     </For>
   );
 }
