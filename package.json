@@ -13,11 +13,14 @@
     "vite": "^3.1.0"
   },
   "dependencies": {
+    "@zag-js/range-slider": "^0.2.8",
+    "@zag-js/solid": "^0.2.5",
     "autoprefixer": "^10.4.12",
     "css": "^3.0.0",
     "postcss": "^8.4.18",
     "solid-js": "^1.6.9",
     "tailwind": "^4.0.0",
+    "tailwindcss": "^3.2.4",
     "vite-plugin-solid": "^2.3.10"
   }
 }
