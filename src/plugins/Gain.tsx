@@ -23,7 +23,7 @@ export default function gainPlugin(props: {
 
       gainNode.gain.cancelScheduledValues(now);
       gainNode.gain.setValueAtTime(0, now);
-      gainNode.gain.linearRampToValueAtTime(0.5, atkEnd);
+      gainNode.gain.linearRampToValueAtTime(0.33, atkEnd);
       gainNode.gain.setTargetAtTime(adsr.sustain, atkEnd, decDuration);
 
       return {
@@ -35,13 +35,6 @@ export default function gainPlugin(props: {
 
           gainNode.gain.cancelScheduledValues(now);
           gainNode.gain.linearRampToValueAtTime(0, relEnd);
-          //   gainNode.addEventListener(
-          //     "ended",
-          //     () => {
-          //       gainNode.disconnect();
-          //     },
-          //     { once: true }
-          //   );
         },
       };
     },

@@ -64,7 +64,6 @@ function Key(props: {
   function pause() {
     setOscsPlaying((oscs) => {
       oscs.forEach((osc) => osc.off());
-      // TODO: await oscs to stop
       return [];
     });
   }
