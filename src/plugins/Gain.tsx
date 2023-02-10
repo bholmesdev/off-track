@@ -3,9 +3,7 @@ import { AudioPlugin } from "../~types";
 import { createStore } from "solid-js/store";
 import Range from "../components/Range";
 
-export default function gainPlugin(props: {
-  audioCtx: AudioContext;
-}): AudioPlugin {
+export function gainPlugin(props: { audioCtx: AudioContext }): AudioPlugin {
   const [adsr, setAdsr] = createStore({
     attack: 0.01,
     decay: 0.1,
@@ -13,6 +11,7 @@ export default function gainPlugin(props: {
     release: 0.1,
   });
   return {
+    name: "Gain",
     setup() {
       const gainNode = props.audioCtx.createGain();
 

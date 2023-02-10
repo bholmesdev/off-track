@@ -3,7 +3,8 @@ import { For } from "solid-js";
 import { createStore } from "solid-js/store";
 import "./styles.css";
 import { FREQUENCIES } from "./~consts";
-import gainPlugin from "./plugins/Gain";
+import { gainPlugin } from "./plugins/Gain";
+import { lowpassPlugin } from "./plugins/Lowpass";
 import { AudioPlugin } from "./~types";
 
 function createOscillator({
@@ -16,7 +17,7 @@ function createOscillator({
   plugins: AudioPlugin[];
 }): Osc {
   const osc = audioCtx.createOscillator();
-  osc.type = "sine";
+  osc.type = "sawtooth";
   osc.frequency.value = frequency;
 
   let currNode: AudioNode = osc;
@@ -87,7 +88,8 @@ function Index() {
   if (!audioCtx) throw new Error("Trash");
 
   const Gain = gainPlugin({ audioCtx });
-  const plugins = [Gain];
+  const Lowpass = lowpassPlugin({ audioCtx });
+  const plugins = [Gain, Lowpass];
   return (
     <>
       <For each={Object.entries(FREQUENCIES)}>
@@ -102,6 +104,7 @@ function Index() {
         )}
       </For>
       <Gain.Controls />
+      <Lowpass.Controls />
     </>
   );
 }
